@@ -1,5 +1,5 @@
 {
-	"name" : "laragrad/pg-helper",
+	"name" : "laragrad/str-trgm",
 	"keywords" : [
 		"laravel",
 		"postgres",
