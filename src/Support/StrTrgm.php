@@ -25,6 +25,7 @@ class StrTrgm
      */
     public static function getSentenceTrgms(string $text)
     {
+        $text = self::normalizeSentence($text);
         $trgm = [];
         foreach (explode(' ', $text) as $word) {
             if (mb_strlen($word) > 0) {
@@ -44,7 +45,6 @@ class StrTrgm
      */
     public static function getWordTrgms(string $text)
     {
-        $text = self::normalizeSentence($text);
         $text = "  {$text} ";
         $trgm = [];
         $length = mb_strlen($text);
@@ -63,13 +63,11 @@ class StrTrgm
      */
     public static function normalizeSentence(string $text)
     {
+        $replacedChars = str_split("'`!?:;,._+-#$%^&*(){}[]<>\\/\"\n\r");
+
         $text = mb_strtolower($text);
-        $replacedChars = [
-            '.', ',', ':', ';', '!', '?',
-            '"', '\'', '-', '\\', '/', '+', '*', '=',
-        ];
         $text = str_replace($replacedChars, array_fill(0, count($replacedChars), ' '), $text);
-        $text = str_replace(['  '], [' '], $text);
+        $text = preg_replace('/^ +| +$|( ) +/m', ' ', $text);
 
         return trim($text);
     }
